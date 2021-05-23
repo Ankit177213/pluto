@@ -1,0 +1,734 @@
+<%-- 
+    Document   : index
+    Created on : 28 Jun, 2019, 10:47:30 PM
+    Author     : Dell
+--%>
+<%@page import="java.sql.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script>
+        $(document).ready(function(){  
+            $("#round-trip").click(function(){  
+            $(".round-form").show();
+            $(".multi").hide();
+            $(".book-flight-form").hide();
+            });  
+        });  
+        $(document).ready(function(){  
+            $("#one-way").click(function(){  
+            $(".round-form").hide();
+            $(".multi").hide();
+            $(".book-flight-form").show();
+            });  
+        });  
+        $(document).ready(function(){  
+            $("#multi-city").click(function(){  
+            $(".book-flight-form").hide();
+            $(".multi").show();
+            $(".round-form").hide();
+            });  
+        });  
+        </script>
+        <style>
+.nav-div {
+    position: fixed;
+    top: 0px;
+    z-index: 7;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+body#er {
+    background-image: url("css/f1.jpg");
+    background-attachment: fixed;
+}
+.main-form {
+    margin: 90px auto 30px auto;
+    background-color: white;
+    width: 550px;
+    height: 780px;
+    padding: 0px;
+    border: 2px solid teal;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 25px;
+}
+p {
+    text-decoration: underline;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+.m-radio {
+    padding: 25px;
+    border: 1px solid teal;
+    border-bottom: 2px solid teal;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+    margin-bottom: 10px;
+    background-color: #ffdaee;
+}
+.qwe>input {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    letter-spacing: 0.13em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 0px solid black;
+    background-color: teal;
+    color: white;
+}
+.radio-b {
+    border: 2px solid teal;
+    margin: 30px auto 5px auto;
+    padding: 20px;
+    border-radius: 23px;
+    width: 80%;
+    background-color: #ffdaee;
+    /*box-shadow: 2px 2px 4px 2px #adadad;*/
+}
+label {
+    margin-top: 8px;
+    float: left;
+    text-align: right;
+    width: 200px;
+}
+.sub-but {
+    border: 1px solid #007dff;
+    background-color: #007dff;
+    padding: 10px;
+    color: white;
+    border-radius: 18px;
+    width: 50%;
+}
+.radio-b>input:focus,.m-radio>input:focus {
+    box-shadow: 2px 2px 2px 2px #8d8d8d inset;
+}
+.radio-b>input:hover,.m-radio>input:hover {
+    box-shadow: -2px -2px 2px 2px #8d8d8d inset;
+}
+.radio-b>input {
+    border-radius: 10px;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    background-color: teal;
+    padding-right: 8px;
+    border: 1px solid teal;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.sub-but:hover,.sub-but:focus {
+    background-color: lightslategray;
+    border: 1px solid black;
+}
+div.book-flight-form div.submit-but {
+    margin-top: 80px;
+}
+.input1 {
+    margin-bottom: 20px;
+}
+select,.input-type{
+    width: 200px;
+    border-bottom: 2px solid grey;
+    border-width: 0px 0px 2px 0px;
+    height: 40px;
+}
+select:hover,.input-type:hover,select:focus,.input-type:focus{
+    background-color: lightgray;
+}
+.round-form{
+    display: none;
+}
+.multi{
+    display: none;
+}
+.murga{
+    color: red;
+    font-family: 'lobster';
+    font-weight: bold;
+    letter-spacing: 0.16em;
+    text-decoration: underline;
+    font-style: Cooper;
+}
+        </style>
+</head>
+<body id="er" >
+
+<nav class="navbar navbar-default background-color:#e7e7e7">
+	<div class="container-fluid">
+		<div class="navbar-header">
+		<a class="navbar-brand" href="index.jsp">pluto.com</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="payment.jsp">Book</a></li>
+			<li class="active"><a href="#">Offers</a></li>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manager<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="mlogin.jsp">Manager Login</a></li>
+					<li><a href="#">Page 2</a></li>
+					<li><a href="#">Page 3</a></li>
+				</ul>
+			</li>
+			<li class="active"><a href="#">Contact</a></li> 
+			<li class="active"><a href="aboutus.jsp">About us</a></li>
+                        <li class="active" style="border-left:1px solid black;border-right:1px solid black;"><a href="" >
+<%
+    if(session.getAttribute("naam")!=null){
+         String un=(String)session.getAttribute("naam");
+         out.println("Welcome "+un);
+    }
+    else
+        response.sendRedirect("login-page.jsp");
+%>
+                            </a></li>
+                </ul>
+		<ul class="nav navbar-nav navbar-right">
+                    <li ><form ><input type="submit" name="l1" style="font-size: 17px;border: 0px solid black;padding-left: 17px;padding-right: 17px;padding-top:13px;padding-bottom: 13px;border-radius: 10px;" value="Logout" />
+<%
+if(request.getParameter("l1")!=null){
+    session.setAttribute("username",null);
+    session.setAttribute("naam",null);
+    response.sendRedirect("index.jsp");
+}
+%>
+                        </form></li>
+		</ul>
+	</div>
+</nav>
+
+<div class="main-form" >
+    <div class="m-radio" ><form class="qwe" method="post" >
+                <input type="submit" name="bookf" value="Book Flight" id="book-flight" >
+                <input type="submit" name="fligtsta" value="Flight Status" id="flight-status" ></form>
+<%                
+        if(request.getParameter("bookf")!=null){
+            response.sendRedirect("customer_detail.jsp");
+        }
+        else if(request.getParameter("fligtsta")!=null){
+            response.sendRedirect("flight_status.jsp");
+        }
+%>                
+    </div>
+	<div class="radio" >
+            <div class="radio-b" >
+		<input type="submit" value="One Way" id="one-way" >
+		<input type="submit" value="Round Trip" id="round-trip" >
+		<input type="submit" value="Multi City" id="multi-city" >
+            </div><br/>
+		<div class="book-flight-form">
+                    <p class="one-form" >One Way</p>
+			<form action="" method="post" >
+                            <div class="input1" >
+				<label for="from">Flying From:</label>
+				<select name="f1" id="from" reqiured >
+                                        <option></option>
+					<option value="allahabad" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurugram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="to">Flying To:</label>
+				<select name="f2" id="to" required >
+                                        <option></option>
+					<option value="allahabad" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurugram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="deprt">Departing Date:</label>
+				<input type="date" name="f3" class="input-type" id="deprt" required >
+                              <!--  <input type="text" name="select_date" id="select_date">
+                                <script type="text/javascript">
+                                    $(function(){$("#select_date").datepicker({format:"dd/mm/yyyy", autoclose:true, todayHighlight:true, showOtherMonths:true, selectOtherMonths:true, changeMonth:true, changeYear:true,
+                                            minDate:new Date()});
+                                    });
+                                    </script>-->
+                            </div>
+                            <div class="input1" >
+				<label for="adults">Adults:</label>
+                                <input type="number" class="input-type" name="f4" id="adults" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                             <div class="input1" >
+				<label for="childrens">Children:</label>
+				<input type="number" class="input-type" name="f5" id="childrens" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                            <div class="input1" >
+                            <label for="from">Travel Class:</label>
+                            <select name="f6" id="from" class="input-type" required >
+                                        <option></option>
+					<option value="economy" >ECONOMY</option>
+					<option value="2" >BUSINESS</option>
+                            </select>
+                            </div>
+                            <div class="submit-but">
+				<input type="submit" class="sub-but" name="b3" value="Check Flight" >
+                            </div>
+			</form>
+		</div>
+                <div class="round-form">
+                    <p class="round-p" >Round Trip</p>
+			<form action="" method="post" >
+                            <div class="input1" >
+				<label for="from">Flying From:</label>
+                                <select name="f1" id="from" required>
+                                        <option></option>
+					<option value="allahabadd" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurgram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="to">Flying To:</label>
+				<select name="f2" id="to" required >
+                                        <option></option>
+					<option value="allahabad" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurugram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="deprt">Departing Date:</label>
+				<input type="date" class="input-type" name="f3" id="deprt" required>
+                            </div>
+                            <div class="input1" >
+				<label for="retu">Returning Date:</label>
+				<input type="date" class="input-type" name="f4" id="retu" required >
+                            </div>
+                            <div class="input1" >
+				<label for="adults">Adults:</label>
+                                <input type="number" class="input-type" name="f5" id="adults" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                            <div class="input1" >
+				<label for="children">Childrens:</label>
+				<input type="number" class="input-type" name="f6" id="children" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                            <div class="input1" >
+                            <label for="from">Travel Class:</label>
+                            <select name="f7" id="from" class="input-type" required >
+                                        <option></option>
+					<option value="economy" >ECONOMY</option>
+					<option value="2" >BUSINESS</option>
+                            </select>
+                            </div>
+                            <div class="submit-but">
+				<input type="submit" name="r3" class="sub-but" value="Check Flight" >
+                            </div>
+<%
+if(request.getParameter("b3")!=null){
+    String fromf=request.getParameter("f1");
+    String tof=request.getParameter("f2");
+    String datef=request.getParameter("f3");
+    int adults=Integer.parseInt(request.getParameter("f4"));
+    int child=Integer.parseInt(request.getParameter("f5"));
+    String classf=request.getParameter("f6");
+    Connection con=null;
+    Statement st;
+    ResultSet rs;
+    try{
+        Class.forName("com.mysql.jdbc.Driver");
+        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
+        st=con.createStatement();
+           int seatf=adults+child;
+            session.setAttribute("fromf1",fromf);
+            session.setAttribute("tof1",tof);
+            session.setAttribute("date1",datef);
+            session.setAttribute("adults1",adults);
+            session.setAttribute("child1",child);
+            session.setAttribute("classf1",classf);
+            session.setAttribute("seatf1",seatf);
+            response.sendRedirect("showstatus.jsp");
+        
+    }catch(Exception e){
+        out.println(e.toString());
+    }
+}
+if(request.getParameter("r3")!=null){
+    String fromf=request.getParameter("f1");
+    String tof=request.getParameter("f2");
+    String datef=request.getParameter("f3");
+    String rdatef=request.getParameter("f4");
+    int adults=Integer.parseInt(request.getParameter("f5"));
+    int child=Integer.parseInt(request.getParameter("f6"));
+    String classf=request.getParameter("f7");
+    Connection con=null;
+    Statement st;
+    ResultSet rs;
+    try{
+        Class.forName("com.mysql.jdbc.Driver");
+        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
+        st=con.createStatement();
+           int seatf=adults+child;
+            session.setAttribute("fromf1",fromf);
+            session.setAttribute("tof1",tof);
+            session.setAttribute("date1",datef);
+            session.setAttribute("rdate1",rdatef);
+            session.setAttribute("adults1",adults);
+            session.setAttribute("child1",child);
+            session.setAttribute("classf1",classf);
+            session.setAttribute("seatf1",seatf);
+            response.sendRedirect("showstatusr.jsp");
+        
+    }catch(Exception e){
+        out.println(e.toString());
+    }
+}
+%>
+			</form>
+		</div>
+            <div class="multi" >
+                <p class="round-p" >Multi City</p>
+			<form action="" method="post" >
+                            <div class="input1" >
+				<label for="from">Flying From:</label>
+				<select name="f1" id="from" required>
+                                        <option></option>
+					<option value="allahabadd" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurgram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="to">Flying To:</label>
+				<select name="t1" id="to" required >
+                                        <option></option>
+					<option value="allahabad" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurugram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="from2">Flying From:</label>
+				<select name="f2" id="from2" required >
+                                        <option></option>
+					<option value="allahabadd" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurgram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="to2">Flying To:</label>
+				<select name="t2" id="to2" >
+                                        <option></option>
+					<option value="allahabad" >Allahabad</option>
+					<option value="assam" >Assam</option>
+					<option value="bengaluru" >Bengaluru</option>
+					<option value="chennai" >Chennai</option>
+					<option value="delhi" >Delhi</option>
+					<option value="gorakhpur" >Gorakhpur</option>
+					<option value="gurugram" >Gurugram</option>
+					<option value="kanpur" >Kanpur</option>
+					<option value="kolkata" >Kolkata</option>
+					<option value="mumbai" >Mumbai</option>
+					<option value="thiruvananthapuram" >Thiruvananthapuram</option>
+					<option value="vishakhapatnam" >Vishakhapatnam</option>
+				</select>
+                            </div>
+                            <div class="input1" >
+				<label for="deprt">Departing Date:</label>
+				<input type="date" class="input-type" name="d1" id="deprt" >
+                            </div>
+                            <div class="input1" >
+				<label for="retu">Returning Date:</label>
+				<input type="date" class="input-type" name="r1" id="retu" >
+                            </div>
+                            <div class="input1" >
+				<label for="adults">Adults:</label>
+                                <input type="number" class="input-type" name="p1" id="adults" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                            <div class="input1" >
+				<label for="children">Childrens:</label>
+				<input type="number" class="input-type" name="p2" id="children" required min=0 onclick="validity.valid||(value='');">
+                            </div>
+                            <div class="input1" >
+                            <label for="from">Travel Class:</label>
+                            <select name="c1" id="from" class="input-type" required >
+                                        <option></option>
+					<option value="economy" >ECONOMY</option>
+					<option value="2" >BUSINESS</option>
+                            </select>
+                            </div>
+                            <div class="submit-but">
+				<input type="submit" name="mul3" class="sub-but" value="Check Flight" >
+                            </div>
+                        </form>
+            </div>
+	</div>
+</div>
+    <br>
+    <br>
+        <br><br><br><br>
+        <div class="murga">
+        <center>    <h2 > YOU CAN VISIT THESE PLACES</h2></center>
+        </div><br>
+     <div class="container">
+	 <div class="row">
+             <div class="col-md-4 "><a href="https://www.britannica.com/place/Karnataka-state-India">
+             <p style="color: white;position: absolute;top: 18px;left: 33px;text-decoration: none;">Karnataka</p>
+<img src="f4.jpg" width="370px" height="250px" class="img-rounded" title="Visit Karnataka" /></a>
+</div>
+<div class="col-md-4 "><a href="https://www.britannica.com/place/Kerala">
+             <p style="color: white;position: absolute;top: 18px;left: 33px;text-decoration: none;">Kerla</p>
+             <img src="north-east-india.jpg" width="370px" height="250px" class="img-rounded" title="Visit Kerla" /></a>
+</div>
+<div class="col-md-4 "><a href="https://www.britannica.com/place/Agra">
+             <p style="color: white;position: absolute;top: 18px;left: 33px;text-decoration: none;">Agra</p>
+             <img src="f2.jpg" width="370px" height="250px" class="img-rounded" title="Visit Agra" /></a>
+</div>
+
+</div>
+	 </div>
+	 
+	 <br>
+	 <br><br><br><br><br><br><br><br>
+	<!-- Footer -->
+<footer class="page-footer font-small unique-color-dark mt-10">
+
+  <div style="background-color: #6A5ACD;">
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row py-4 d-flex align-items-center">
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+          <h6 class="mb-0">Get connected with us on social networks!</h6>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-7 text-center text-md-right">
+
+          <!-- Facebook -->
+          <a class="fb-ic">
+            <i class="fab fa-facebook-f white-text mr-4"> </i>
+          </a>
+          <!-- Twitter -->
+          <a class="tw-ic">
+            <i class="fab fa-twitter white-text mr-4"> </i>
+          </a>
+          <!-- Google +-->
+          <a class="gplus-ic">
+            <i class="fab fa-google-plus-g white-text mr-4"> </i>
+          </a>
+          <!--Linkedin -->
+          <a class="li-ic">
+            <i class="fab fa-linkedin-in white-text mr-4"> </i>
+          </a>
+          <!--Instagram-->
+          <a class="ins-ic">
+            <i class="fab fa-instagram white-text"> </i>
+          </a>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+  </div>
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left mt-5">
+
+    <!-- Grid row -->
+    <div class="row mt-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+        <!-- Content -->
+        <h6 class="text-uppercase font-weight-bold">www.pluto.com</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+        <p> THIS IS OUR FIRST WEBSITE</p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold">Products</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 80px;">
+        <p>
+          <a href="#!">Products will come soon</a>
+        </p>
+        
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold">Useful links</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 80px;">
+        <p>
+          <a href="#!">Your Account</a>
+        </p>
+        <p>
+          <a href="#!">Become an Affiliate</a>
+        </p>
+        <p>
+        </p>
+        <p>
+          <a href="#!">Help</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold">Contact</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 80px;">
+        <p>
+          <i class="fas fa-home mr-3"></i>India,new Delhi</p>
+        <p>
+          <i class="fas fa-envelope mr-3"></i> arjunkumar1990@gmail.com</p>
+        <p>
+          <i class="fas fa-phone mr-3"></i> Aditya:+ 01 234 567 88</p>
+        <p>
+          <i class="fas fa-print mr-3"></i> Arjun:+ 01 234 567 89</p>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <marquee><div class="footer-copyright text-center py-3">© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/">Developed by pluto Team</a>
+  </div></marquee>
+  <!-- Copyright -->
+
+</footer>
+    
+    <%/*
+ if(request.getParameter("b3")!=null){
+         String from=request.getParameter("f1");
+         String to=request.getParameter("t1");
+          String departingdate=request.getParameter("d1");
+          String returningdate=request.getParameter("r1");
+          String travelclass=request.getParameter("c1");
+           String adults=request.getParameter("p1");
+            String childrens=request.getParameter("p2");
+          /*  String passengers=request.getParameter("p1");*/
+             
+       /*     Connection con=null;
+		Statement st;
+		try{
+		Class.forName("com.mysql.jdbc.Driver");	
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
+		
+		st=con.createStatement();
+		
+		String sql="INSERT INTO `table1`(`from`, `to`, `Ddate`, `Rdate`, `class`, `Adults`, `childrens`) VALUES ('"+from+"','"+to+"','"+departingdate+"','"+returningdate+"','"+travelclass+"', "+adults+","+childrens+")";
+		int res=st.executeUpdate(sql);
+		if(res!=0){%>
+                
+            <!--    <div class="alert alert-success">details inserted</div>-->
+                
+			<%/*
+                       }
+                else{
+			out.println("detais Not Inserted");}
+
+
+		}catch(Exception e)
+		{
+			out.println(e.toString());
+		}
+     
+}    
+     */%>
+
+
+
+</body>
+</html>
